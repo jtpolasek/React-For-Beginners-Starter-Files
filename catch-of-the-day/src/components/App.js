@@ -9,8 +9,6 @@ import base from '../base';
 class App extends React.Component {
 	constructor(){
 		super();
-
-
 		this.addFish = this.addFish.bind(this);
 		this.loadSamples = this.loadSamples.bind(this);
 		this.addToOrder = this.addToOrder.bind(this);
@@ -24,23 +22,24 @@ class App extends React.Component {
 		};
 	}
 
-	componentWillMount(){	
-		//this runds right before the <app> is rendered
-		this.ref = base.syncState(`${this.props.params.storeId}/fishes` 
-			, {
-				context:this,
-				state:'fishes'
-			});
-		//check if any order is in local storage
-		const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
-		
-		if(localStorageRef){
-			//update app component state
-			this.setState({
-				order: JSON.parse(localStorageRef)
-			});
-		}
-	}
+  componentWillMount() {
+    // this runs right before the <App> is rendered
+    this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes'
+    });
+
+    // check if there is any order in localStorage
+    const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
+
+    if(localStorageRef) {
+      // update our App component's order state
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      });
+    }
+
+  }
 
 	componentWillUnmount() {
 		base.removeBinding(this.ref);
@@ -127,8 +126,7 @@ class App extends React.Component {
 					removeFish={this.removeFish}
 					loadSamples={this.loadSamples} 
 					fishes={this.state.fishes} 
-					updatedFish={this.updateFish}
-					
+					updateFish={this.updateFish}		
 					/>
 			</div>
 
